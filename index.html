@@ -1,278 +1,91 @@
-@font-face {
-  font-family: Inter;
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url("https://shakuro-ribbon-gallery.vercel.app/assets/inter.ttf") format("truetype");
-}
+<!DOCTYPE html>
+<html lang="en">
 
-:root {
-  color-scheme: dark;
-  background: #000;
-  font-family: Inter, Arial, sans-serif;
-  --header-opacity: .55;
-}
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="./style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="&Toc" />
+    <title>Scattered Polaroids — CSS random()</title>
+</head>
 
-* {
-  box-sizing: border-box;
-}
+<body>
+    <div class="scene" id="scene" aria-label="Scattered polaroid gallery"></div>
 
-html,
-body {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  overflow: hidden;
-}
+    <div class="badge" id="badge">testing…</div>
 
-body {
-  background: #000;
-  color: #fff;
-}
+    <div class="copy">&Toc</div>
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
+    <script src="./script.js"></script>
 
-a:hover {
-  opacity: .65;
-}
+  <script>
+        (function() {
+            const expandIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>`;
+            const compressIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"/></svg>`;
 
-a:focus-visible {
-  outline: 1px solid #fff;
-  outline-offset: 5px;
-}
+            function createButton() {
+                const fullscreenBtn = document.createElement('button');
+                fullscreenBtn.setAttribute('aria-label', 'Fullscreen');
 
-.stage {
-  position: absolute;
-  width: var(--stage-width, 100vw);
-  height: 1080px;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%) scale(var(--stage-scale, 1));
-  overflow: hidden;
-  background-color: #000;
-  isolation: isolate;
-}
+                Object.assign(fullscreenBtn.style, {
+                    all: 'unset',
+                    position: 'fixed',
+                    bottom: '20px',
+                    left: '20px',
+                    width: '44px',
+                    height: '44px',
+                    borderRadius: '50%',
+                    background: 'rgba(0, 0, 0, 0.6)',
+                    backdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(255,255,255,0.2)',
+                    color: 'white',
+                    cursor: 'pointer',
+                    zIndex: '1000',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    transition: 'all 0.3s ease'
+                });
 
-.glow {
-  position: absolute;
-  left: calc(50% - 542.19px);
-  top: -454.19px;
-  width: 1068.38px;
-  height: 1548.38px;
-  pointer-events: none;
-  background-color: #fff;
-  mask: url("https://shakuro-ribbon-gallery.vercel.app/assets/glow.svg") center / 100% 100% no-repeat;
-  -webkit-mask: url("https://shakuro-ribbon-gallery.vercel.app/assets/glow.svg") center / 100% 100% no-repeat;
-}
+                fullscreenBtn.innerHTML = expandIcon;
 
-#app {
-  position: fixed;
-  inset: 0;
-  z-index: 11;
-  touch-action: none;
-}
+                fullscreenBtn.addEventListener('mouseenter', () => {
+                    fullscreenBtn.style.background = 'rgba(0, 0, 0, 0.2)';
+                });
 
-.conveyor {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
+                fullscreenBtn.addEventListener('mouseleave', () => {
+                    fullscreenBtn.style.background = 'rgba(0, 0, 0, 0.6)';
+                });
 
-.project-links {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
+                function toggleFullscreen() {
+                    if (!document.fullscreenElement) {
+                        document.documentElement.requestFullscreen()
+                            .then(() => updateIcon(true, fullscreenBtn))
+                            .catch(err => console.error(`Fullscreen error: ${err.message}`));
+                    } else {
+                        document.exitFullscreen()
+                            .then(() => updateIcon(false, fullscreenBtn))
+                            .catch(err => console.error(`Exit fullscreen error: ${err.message}`));
+                    }
+                }
 
-.project-link {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-  pointer-events: auto;
-}
+                fullscreenBtn.addEventListener('click', toggleFullscreen);
 
-.project-link:focus-visible {
-  clip-path: none;
-  width: auto;
-  height: auto;
-  left: 50%;
-  bottom: 24px;
-  transform: translateX(-50%);
-  padding: 12px 18px;
-  background: #141414;
-  white-space: nowrap;
-}
+                document.addEventListener('fullscreenchange', () => {
+                    updateIcon(!!document.fullscreenElement, fullscreenBtn);
+                });
 
-.project-link:focus-visible img {
-  display: none;
-}
+                document.body.appendChild(fullscreenBtn);
+            }
 
-#app.is-fallback {
-  overflow-y: auto;
-  touch-action: pan-y;
-  padding: 100px 24px 60px;
-}
+            function updateIcon(isFullscreen, btn) {
+                btn.innerHTML = isFullscreen ? compressIcon : expandIcon;
+                btn.setAttribute('aria-label', isFullscreen ? 'Exit fullscreen' : 'Fullscreen');
+            }
 
-.is-fallback .conveyor {
-  display: none;
-}
+            createButton();
+        })();
+    </script>
+</body>
 
-.is-fallback .project-links {
-  position: static;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
-  gap: 24px;
-}
-
-.is-fallback .project-link {
-  position: static;
-  width: auto;
-  height: auto;
-  clip-path: none;
-}
-
-.is-fallback .project-link:focus-visible {
-  transform: none;
-  white-space: normal;
-}
-
-.is-fallback .project-link img {
-  display: block;
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  object-fit: contain;
-}
-
-.is-fallback .project-link span {
-  display: block;
-  padding-top: 8px;
-  font-size: 14px;
-}
-
-.wordmark {
-  position: fixed;
-  left: 16px;
-  top: 16px;
-  z-index: 20;
-  width: 88px;
-  height: auto;
-  opacity: var(--header-opacity);
-}
-
-.socials {
-  position: fixed;
-  right: 16px;
-  top: 16px;
-  z-index: 20;
-  display: flex;
-  align-items: center;
-  gap: 11px;
-  font-size: 16px;
-  line-height: 19px;
-}
-
-.socials span {
-  opacity: .4;
-}
-
-.socials a {
-  position: relative;
-  color: rgb(255 255 255 / var(--header-opacity));
-  transition: color 220ms ease;
-}
-
-.socials a::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -4px;
-  height: 1px;
-  background: currentColor;
-  transform: scaleX(0);
-  transform-origin: right center;
-  transition: transform 260ms ease;
-}
-
-.socials a:hover,
-.socials a:focus-visible {
-  color: rgb(255 255 255 / .9);
-  opacity: 1;
-}
-
-.socials a:hover::after,
-.socials a:focus-visible::after {
-  transform: scaleX(1);
-  transform-origin: left center;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .socials a,
-  .socials a::after {
-    transition: none;
-  }
-}
-
-.status {
-  position: fixed;
-  bottom: 16px;
-  left: 16px;
-  z-index: 30;
-  font-size: 14px;
-  color: #fff;
-}
-
-@media (max-width: 700px) {
-  .wordmark {
-    left: 12px;
-    width: 72px;
-  }
-
-  .socials {
-    right: 12px;
-    gap: 8px;
-    font-size: 12px;
-    line-height: 18px;
-  }
-}
-
-@media (max-width: 520px) {
-  .socials {
-    top: 64px;
-    left: 12px;
-    right: auto;
-  }
-}
-
-.bottom-shade {
-  position: absolute;
-  inset: 0;
-  z-index: 9;
-  pointer-events: none;
-  background: linear-gradient(
-    to bottom,
-    transparent 40%,
-    rgb(0 0 0 / .04) 55%,
-    rgb(0 0 0 / .12) 68%,
-    rgb(0 0 0 / .26) 80%,
-    rgb(0 0 0 / .46) 91%,
-    rgb(0 0 0 / .65) 100%
-  );
-}
-
-.noise {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 9;
-  pointer-events: none;
-  opacity: .22;
-  mix-blend-mode: soft-light;
-  background-size: 128px 128px;
-}
+</html>
