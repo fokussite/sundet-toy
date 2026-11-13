@@ -1,114 +1,70 @@
 <!doctype html>
-<html lang="en">
+<html lang="kk">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Light, Sunset and Dark</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600&display=swap">
-  <link rel="stylesheet" href="style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KASIP - Light, Sunset, Dark</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600&display=swap">
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,sans-serif;min-height:100vh;display:grid;place-items:center;transition:.5s;background:#f6f1e7;color:#222}
+body[data-mood="sunset"]{background:linear-gradient(180deg,#2b1a3a,#b4607e,#f3c98a);color:#fff}
+body[data-mood="dark"]{background:#12121a;color:#fff}
+.demo{display:flex;flex-direction:column;gap:20px;align-items:center}
+.toggle{position:relative;width:260px;height:64px;border-radius:999px;background:rgba(255,255,255,.9);box-shadow:0 10px 30px rgba(0,0,0,.15);display:flex;justify-content:space-between;padding:6px}
+body[data-mood="dark"] .toggle{background:#22222f}
+body[data-mood="sunset"] .toggle{background:rgba(0,0,0,.25)}
+.toggle__knob{position:absolute;top:6px;left:6px;width:52px;height:52px;border-radius:50%;background:#fff;box-shadow:0 4px 14px rgba(0,0,0,.2);display:grid;place-items:center;transition:.45s cubic-bezier(.6,0,.2,1.4);z-index:2}
+body[data-mood="sunset"] .toggle__knob{left:104px;background:#ffe6b0}
+body[data-mood="dark"] .toggle__knob{left:202px;background:#2a2a3a}
+.toggle__face{width:48px;height:48px;position:relative}
+.glyph{position:absolute;inset:0;width:100%;height:100%;opacity:0;transform:scale(.6) rotate(-30deg);transition:.45s}
+body[data-mood="light"] .glyph--sun, body[data-mood="sunset"] .glyph--sunset, body[data-mood="dark"] .glyph--moon{opacity:1;transform:scale(1) rotate(0)}
+.toggle__stop{width:52px;height:52px;border:0;background:transparent;cursor:pointer;z-index:3;border-radius:50%}
+.toggle__stop svg{width:24px;height:24px;fill:none;stroke:#888;stroke-width:1.8;stroke-linecap:round}
+body[data-mood="light"] [data-mood="light"] svg{stroke:#e2a06e}
+body[data-mood="sunset"] [data-mood="sunset"] svg{stroke:#e66a63}
+body[data-mood="dark"] [data-mood="dark"] svg{stroke:#ab8cf0}
+.sun-rays{animation:spin 12s linear infinite;transform-origin:24px 24px}
+.ray{stroke:#e2a06e;stroke-width:2;stroke-linecap:round}
+@keyframes spin{to{transform:rotate(360deg)}}
+.star{fill:#ab8cf0;animation:twinkle 1.8s ease-in-out infinite alternate}
+.star:nth-child(2){animation-delay:.3s}.star:nth-child(3){animation-delay:.6s}.star:nth-child(4){animation-delay:.9s}
+@keyframes twinkle{from{opacity:.3}to{opacity:1}}
+.sunset-glow{animation:breathe 3s ease-in-out infinite alternate}
+@keyframes breathe{from{opacity:.6}to{opacity:1}}
+.sunset-line,.sunset-ripple{stroke:#fff;stroke-width:1.6;stroke-linecap:round}
+.sound{border:0;background:#fff;padding:10px 16px;border-radius:999px;cursor:pointer;display:flex;gap:8px;align-items:center;font-weight:600;box-shadow:0 6px 20px rgba(0,0,0,.12)}
+.sound svg{width:20px;height:20px;fill:#333}
+.sound[aria-pressed="false"] .sound__wave{display:none}
+.sound[aria-pressed="true"] .sound__off{display:none}
+.sound[aria-pressed="false"] .sound__off{display:block}
+</style>
 </head>
-<body>
+<body data-mood="light">
 <div class="demo">
+<h2 style="margin:0">KASIP.KZ — Тема таңдаңыз</h2>
+<p style="margin:0;opacity:.7">Light / Sunset / Dark</p>
+
 <div class="toggle" role="radiogroup" aria-label="Color theme">
-  <span class="toggle__knob" aria-hidden="true">
-    <span class="toggle__face">
-
-      <!-- Sun: a warm core with rays that fan out, then turn slowly -->
-      <svg class="glyph glyph--sun" data-for="light" viewBox="0 0 48 48">
-        <defs>
-          <radialGradient id="sun-core" cx="40%" cy="35%" r="70%">
-            <stop offset="0" stop-color="#FFE9B8" />
-            <stop offset="1" stop-color="#E2A06E" />
-          </radialGradient>
-        </defs>
-        <g class="sun-rays">
-          <g transform="rotate(0 24 24)"><line class="ray" style="--n:0" x1="24" y1="4" x2="24" y2="9.5" /></g>
-          <g transform="rotate(45 24 24)"><line class="ray" style="--n:1" x1="24" y1="4" x2="24" y2="9.5" /></g>
-          <g transform="rotate(90 24 24)"><line class="ray" style="--n:2" x1="24" y1="4" x2="24" y2="9.5" /></g>
-          <g transform="rotate(135 24 24)"><line class="ray" style="--n:3" x1="24" y1="4" x2="24" y2="9.5" /></g>
-          <g transform="rotate(180 24 24)"><line class="ray" style="--n:4" x1="24" y1="4" x2="24" y2="9.5" /></g>
-          <g transform="rotate(225 24 24)"><line class="ray" style="--n:5" x1="24" y1="4" x2="24" y2="9.5" /></g>
-          <g transform="rotate(270 24 24)"><line class="ray" style="--n:6" x1="24" y1="4" x2="24" y2="9.5" /></g>
-          <g transform="rotate(315 24 24)"><line class="ray" style="--n:7" x1="24" y1="4" x2="24" y2="9.5" /></g>
-        </g>
-        <circle class="sun-core" cx="24" cy="24" r="9.5" fill="url(#sun-core)" />
-      </svg>
-
-      <!-- Moon: a lit crescent with stars that appear and twinkle -->
-      <svg class="glyph glyph--moon" data-for="dark" viewBox="0 0 48 48">
-        <defs>
-          <linearGradient id="moon-fill" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="#F6F6F4" />
-            <stop offset="1" stop-color="#AB8CF0" />
-          </linearGradient>
-        </defs>
-        <g transform="translate(4 7) scale(1.5)">
-          <path class="moon-body" d="M19.5 14.6A8 8 0 0 1 9.4 4.5a8 8 0 1 0 10.1 10.1Z" fill="url(#moon-fill)" />
-        </g>
-        <path class="star" style="--d:0" d="M37 6.5Q37 10 40.5 10Q37 10 37 13.5Q37 10 33.5 10Q37 10 37 6.5Z" />
-        <path class="star" style="--d:1" d="M42 19Q42 21 44 21Q42 21 42 23Q42 21 40 21Q42 21 42 19Z" />
-        <path class="star" style="--d:2" d="M31 17.5Q31 19 32.5 19Q31 19 31 20.5Q31 19 29.5 19Q31 19 31 17.5Z" />
-        <path class="star" style="--d:3" d="M41 31Q41 32.5 42.5 32.5Q41 32.5 41 34Q41 32.5 39.5 32.5Q41 32.5 41 31Z" />
-      </svg>
-
-      <!-- Sunset: a breathing gradient glow behind a sun on the horizon -->
-      <svg class="glyph glyph--sunset" data-for="sunset" viewBox="0 0 48 48">
-        <defs>
-          <radialGradient id="sunset-glow" cx="50%" cy="50%" r="50%">
-            <stop offset="0" stop-color="#F3C98A" stop-opacity="0.95" />
-            <stop offset="0.45" stop-color="#E66A63" stop-opacity="0.5" />
-            <stop offset="1" stop-color="#B4607E" stop-opacity="0" />
-          </radialGradient>
-          <linearGradient id="sunset-sun" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stop-color="#F6D898" />
-            <stop offset="1" stop-color="#E66A63" />
-          </linearGradient>
-          <clipPath id="sunset-sky">
-            <rect x="0" y="0" width="48" height="30" />
-          </clipPath>
-        </defs>
-        <circle class="sunset-glow" cx="24" cy="30" r="21" fill="url(#sunset-glow)" />
-        <g clip-path="url(#sunset-sky)">
-          <circle class="sunset-sun" cx="24" cy="30" r="10" fill="url(#sunset-sun)" />
-        </g>
-        <line class="sunset-line" x1="7" y1="30" x2="41" y2="30" />
-        <line class="sunset-ripple" style="--n:0" x1="14" y1="35" x2="34" y2="35" />
-        <line class="sunset-ripple" style="--n:1" x1="19" y1="39.5" x2="29" y2="39.5" />
-      </svg>
-
-    </span>
-  </span>
-
-  <button type="button" class="toggle__stop" role="radio" aria-checked="false" tabindex="-1" data-mood="light" aria-label="Light">
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <circle cx="12" cy="12" r="4" />
-      <path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8" />
-    </svg>
-  </button>
-  <button type="button" class="toggle__stop" role="radio" aria-checked="false" tabindex="-1" data-mood="sunset" aria-label="Sunset">
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M7 17a5 5 0 0 1 10 0" />
-      <path d="M2.5 17h19M5.5 20.5h13M12 5.5V8M5.3 9.8l1.6 1.6M18.7 9.8l-1.6 1.6" />
-    </svg>
-  </button>
-  <button type="button" class="toggle__stop" role="radio" aria-checked="false" tabindex="-1" data-mood="dark" aria-label="Dark">
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M19.5 14.6A8 8 0 0 1 9.4 4.5a8 8 0 1 0 10.1 10.1Z" />
-    </svg>
-  </button>
+  <span class="toggle__knob"><span class="toggle__face">
+    <svg class="glyph glyph--sun" viewBox="0 0 48 48"><g class="sun-rays"><g><line class="ray" x1="24" y1="4" x2="24" y2="9.5"/></g></g><circle cx="24" cy="24" r="9.5" fill="#E2A06E"/></svg>
+    <svg class="glyph glyph--moon" viewBox="0 0 48 48"><path d="M19.5 14.6A8 8 0 0 1 9.4 4.5a8 8 0 1 0 10.1 10.1Z" fill="#AB8CF0"/><path class="star" d="M37 6.5Q37 10 40.5 10Q37 10 37 13.5Q37 10 33.5 10Q37 10 37 6.5Z"/><path class="star" d="M42 19Q42 21 44 21Q42 21 42 23Q42 21 40 21Q42 21 42 19Z"/></svg>
+    <svg class="glyph glyph--sunset" viewBox="0 0 48 48"><circle cx="24" cy="30" r="10" fill="#E66A63"/><line class="sunset-line" x1="7" y1="30" x2="41" y2="30"/><line class="sunset-ripple" x1="14" y1="35" x2="34" y2="35"/><line class="sunset-ripple" x1="19" y1="39.5" x2="29" y2="39.5"/></svg>
+  </span></span>
+  <button type="button" class="toggle__stop" data-mood="light" aria-label="Light"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"/></svg></button>
+  <button type="button" class="toggle__stop" data-mood="sunset" aria-label="Sunset"><svg viewBox="0 0 24 24"><path d="M7 17a5 5 0 0 1 10 0"/><path d="M2.5 17h19M5.5 20.5h13M12 5.5V8M5.3 9.8l1.6 1.6M18.7 9.8l-1.6 1.6"/></svg></button>
+  <button type="button" class="toggle__stop" data-mood="dark" aria-label="Dark"><svg viewBox="0 0 24 24"><path d="M19.5 14.6A8 8 0 0 1 9.4 4.5a8 8 0 1 0 10.1 10.1Z"/></svg></button>
 </div>
 
-<button type="button" class="sound" aria-pressed="true">
-  <svg viewBox="0 0 24 24" aria-hidden="true">
-    <path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" />
-    <path class="sound__wave" d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11" />
-    <path class="sound__off" d="M16 9.5l5 5M21 9.5l-5 5" />
-  </svg>
-  <span class="sound__label">Sound on</span>
-</button>
+<button type="button" class="sound" aria-pressed="true"><svg viewBox="0 0 24 24"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path class="sound__wave" d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/><path class="sound__off" d="M16 9.5l5 5M21 9.5l-5 5"/></svg><span class="sound__label">Sound on</span></button>
 </div>
 
-<script src="script.js"></script>
+<script>
+const btns=document.querySelectorAll('.toggle__stop');
+btns.forEach(b=>b.onclick=()=>{document.body.dataset.mood=b.dataset.mood});
+const sound=document.querySelector('.sound');
+sound.onclick=()=>{const on=sound.getAttribute('aria-pressed')==='true';sound.setAttribute('aria-pressed',!on);sound.querySelector('.sound__label').textContent=on?'Sound off':'Sound on'};
+</script>
 </body>
 </html>
