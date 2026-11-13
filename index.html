@@ -1,443 +1,114 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="./style.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="author" content="&Toc" />
-    <title>Scattered Polaroids — CSS random()</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Light, Sunset and Dark</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600&display=swap">
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-    <div class="scene" id="scene" aria-label="Scattered polaroid gallery"></div>
+<div class="demo">
+<div class="toggle" role="radiogroup" aria-label="Color theme">
+  <span class="toggle__knob" aria-hidden="true">
+    <span class="toggle__face">
 
-    <div class="badge" id="badge">testing…</div>
+      <!-- Sun: a warm core with rays that fan out, then turn slowly -->
+      <svg class="glyph glyph--sun" data-for="light" viewBox="0 0 48 48">
+        <defs>
+          <radialGradient id="sun-core" cx="40%" cy="35%" r="70%">
+            <stop offset="0" stop-color="#FFE9B8" />
+            <stop offset="1" stop-color="#E2A06E" />
+          </radialGradient>
+        </defs>
+        <g class="sun-rays">
+          <g transform="rotate(0 24 24)"><line class="ray" style="--n:0" x1="24" y1="4" x2="24" y2="9.5" /></g>
+          <g transform="rotate(45 24 24)"><line class="ray" style="--n:1" x1="24" y1="4" x2="24" y2="9.5" /></g>
+          <g transform="rotate(90 24 24)"><line class="ray" style="--n:2" x1="24" y1="4" x2="24" y2="9.5" /></g>
+          <g transform="rotate(135 24 24)"><line class="ray" style="--n:3" x1="24" y1="4" x2="24" y2="9.5" /></g>
+          <g transform="rotate(180 24 24)"><line class="ray" style="--n:4" x1="24" y1="4" x2="24" y2="9.5" /></g>
+          <g transform="rotate(225 24 24)"><line class="ray" style="--n:5" x1="24" y1="4" x2="24" y2="9.5" /></g>
+          <g transform="rotate(270 24 24)"><line class="ray" style="--n:6" x1="24" y1="4" x2="24" y2="9.5" /></g>
+          <g transform="rotate(315 24 24)"><line class="ray" style="--n:7" x1="24" y1="4" x2="24" y2="9.5" /></g>
+        </g>
+        <circle class="sun-core" cx="24" cy="24" r="9.5" fill="url(#sun-core)" />
+      </svg>
 
-    <div class="copy">&Toc</div>
+      <!-- Moon: a lit crescent with stars that appear and twinkle -->
+      <svg class="glyph glyph--moon" data-for="dark" viewBox="0 0 48 48">
+        <defs>
+          <linearGradient id="moon-fill" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#F6F6F4" />
+            <stop offset="1" stop-color="#AB8CF0" />
+          </linearGradient>
+        </defs>
+        <g transform="translate(4 7) scale(1.5)">
+          <path class="moon-body" d="M19.5 14.6A8 8 0 0 1 9.4 4.5a8 8 0 1 0 10.1 10.1Z" fill="url(#moon-fill)" />
+        </g>
+        <path class="star" style="--d:0" d="M37 6.5Q37 10 40.5 10Q37 10 37 13.5Q37 10 33.5 10Q37 10 37 6.5Z" />
+        <path class="star" style="--d:1" d="M42 19Q42 21 44 21Q42 21 42 23Q42 21 40 21Q42 21 42 19Z" />
+        <path class="star" style="--d:2" d="M31 17.5Q31 19 32.5 19Q31 19 31 20.5Q31 19 29.5 19Q31 19 31 17.5Z" />
+        <path class="star" style="--d:3" d="M41 31Q41 32.5 42.5 32.5Q41 32.5 41 34Q41 32.5 39.5 32.5Q41 32.5 41 31Z" />
+      </svg>
 
-    <script src="./script.js"></script>
+      <!-- Sunset: a breathing gradient glow behind a sun on the horizon -->
+      <svg class="glyph glyph--sunset" data-for="sunset" viewBox="0 0 48 48">
+        <defs>
+          <radialGradient id="sunset-glow" cx="50%" cy="50%" r="50%">
+            <stop offset="0" stop-color="#F3C98A" stop-opacity="0.95" />
+            <stop offset="0.45" stop-color="#E66A63" stop-opacity="0.5" />
+            <stop offset="1" stop-color="#B4607E" stop-opacity="0" />
+          </radialGradient>
+          <linearGradient id="sunset-sun" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#F6D898" />
+            <stop offset="1" stop-color="#E66A63" />
+          </linearGradient>
+          <clipPath id="sunset-sky">
+            <rect x="0" y="0" width="48" height="30" />
+          </clipPath>
+        </defs>
+        <circle class="sunset-glow" cx="24" cy="30" r="21" fill="url(#sunset-glow)" />
+        <g clip-path="url(#sunset-sky)">
+          <circle class="sunset-sun" cx="24" cy="30" r="10" fill="url(#sunset-sun)" />
+        </g>
+        <line class="sunset-line" x1="7" y1="30" x2="41" y2="30" />
+        <line class="sunset-ripple" style="--n:0" x1="14" y1="35" x2="34" y2="35" />
+        <line class="sunset-ripple" style="--n:1" x1="19" y1="39.5" x2="29" y2="39.5" />
+      </svg>
 
-  <script>
-        (function() {
-            const expandIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>`;
-            const compressIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"/></svg>`;
+    </span>
+  </span>
 
-            function createButton() {
-                const fullscreenBtn = document.createElement('button');
-                fullscreenBtn.setAttribute('aria-label', 'Fullscreen');
+  <button type="button" class="toggle__stop" role="radio" aria-checked="false" tabindex="-1" data-mood="light" aria-label="Light">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="12" cy="12" r="4" />
+      <path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8" />
+    </svg>
+  </button>
+  <button type="button" class="toggle__stop" role="radio" aria-checked="false" tabindex="-1" data-mood="sunset" aria-label="Sunset">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M7 17a5 5 0 0 1 10 0" />
+      <path d="M2.5 17h19M5.5 20.5h13M12 5.5V8M5.3 9.8l1.6 1.6M18.7 9.8l-1.6 1.6" />
+    </svg>
+  </button>
+  <button type="button" class="toggle__stop" role="radio" aria-checked="false" tabindex="-1" data-mood="dark" aria-label="Dark">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M19.5 14.6A8 8 0 0 1 9.4 4.5a8 8 0 1 0 10.1 10.1Z" />
+    </svg>
+  </button>
+</div>
 
-                Object.assign(fullscreenBtn.style, {
-                    all: 'unset',
-                    position: 'fixed',
-                    bottom: '20px',
-                    left: '20px',
-                    width: '44px',
-                    height: '44px',
-                    borderRadius: '50%',
-                    background: 'rgba(0, 0, 0, 0.6)',
-                    backdropFilter: 'blur(10px)',
-                    border: '1px solid rgba(255,255,255,0.2)',
-                    color: 'white',
-                    cursor: 'pointer',
-                    zIndex: '1000',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    transition: 'all 0.3s ease'
-                });
+<button type="button" class="sound" aria-pressed="true">
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" />
+    <path class="sound__wave" d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11" />
+    <path class="sound__off" d="M16 9.5l5 5M21 9.5l-5 5" />
+  </svg>
+  <span class="sound__label">Sound on</span>
+</button>
+</div>
 
-                fullscreenBtn.innerHTML = expandIcon;
-
-                fullscreenBtn.addEventListener('mouseenter', () => {
-                    fullscreenBtn.style.background = 'rgba(0, 0, 0, 0.2)';
-                });
-
-                fullscreenBtn.addEventListener('mouseleave', () => {
-                    fullscreenBtn.style.background = 'rgba(0, 0, 0, 0.6)';
-                });
-
-                function toggleFullscreen() {
-                    if (!document.fullscreenElement) {
-                        document.documentElement.requestFullscreen()
-                            .then(() => updateIcon(true, fullscreenBtn))
-                            .catch(err => console.error(`Fullscreen error: ${err.message}`));
-                    } else {
-                        document.exitFullscreen()
-                            .then(() => updateIcon(false, fullscreenBtn))
-                            .catch(err => console.error(`Exit fullscreen error: ${err.message}`));
-                    }
-                }
-
-                fullscreenBtn.addEventListener('click', toggleFullscreen);
-
-                document.addEventListener('fullscreenchange', () => {
-                    updateIcon(!!document.fullscreenElement, fullscreenBtn);
-                });
-
-                document.body.appendChild(fullscreenBtn);
-            }
-
-            function updateIcon(isFullscreen, btn) {
-                btn.innerHTML = isFullscreen ? compressIcon : expandIcon;
-                btn.setAttribute('aria-label', isFullscreen ? 'Exit fullscreen' : 'Fullscreen');
-            }
-
-            createButton();
-        })();
-    </script>
-*,
-*::before,
-*::after {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0
-}
-
-html,
-body {
-    width: 100%;
-    height: 100%;
-    overflow: hidden
-}
-
-.copy {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    color: #000;
-    background: rgb(255 255 255 / .7);
-    padding: 10px;
-    border-radius: 5px;
-    font-size: 12px;
-    z-index: 2
-}
-
-:root {
-    --table-bg: #2b2118;
-    --table-bg-2: #3a2d22;
-    --polaroid-bg: #faf8f3;
-    --card-w: 260px;
-    --card-h: 330px
-}
-
-body {
-    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
-    background: radial-gradient(circle at 25% 15%, #d97d2e, transparent 55%), radial-gradient(circle at 80% 85%, #901616, transparent 50%), #245a2f;
-    position: relative;
-    isolation: isolate
-}
-
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    background: repeating-linear-gradient(92deg, rgb(0 0 0 / .07) 0 2px, transparent 2px 9px), repeating-linear-gradient(2deg, rgb(255 255 255 / .015) 0 1px, transparent 1px 40px);
-    z-index: 0
-}
-
-.scene {
-    position: fixed;
-    inset: 0;
-    z-index: 1
-}
-
-.polaroid {
-    position: absolute;
-    width: var(--card-w);
-    padding: 8px 8px 0;
-    background: var(--polaroid-bg);
-    border-radius: 4px;
-    cursor: pointer;
-    transition: transform 0.5s cubic-bezier(.22, 1, .36, 1), box-shadow 0.5s ease, filter 0.4s ease;
-    will-change: transform;
-    transform-origin: center center;
-    top: var(--y, 20px);
-    left: var(--x, 20px);
-    --jitter-x: random(-10px, 10px);
-    --jitter-y: random(-10px, 10px);
-    --angle: random(-14deg, 14deg);
-    --shadow-x: random(-6px, 6px);
-    --shadow-y: random(5px, 14px);
-    --shadow-blur: random(10px, 22px);
-    transform: translate(var(--jitter-x), var(--jitter-y)) rotate(var(--angle));
-    box-shadow: 0 1px 1px rgb(0 0 0 / .15), var(--shadow-x) var(--shadow-y) var(--shadow-blur) rgb(0 0 0 / .4)
-}
-
-.polaroid img {
-    display: block;
-    width: 100%;
-    aspect-ratio: 1 / 1;
-    object-fit: cover;
-    background: #ccc;
-    border-radius: 2px;
-    pointer-events: none
-}
-
-.polaroid .caption {
-    font-family: "Segoe Script", "Bradley Hand", "Comic Sans MS", cursive;
-    font-size: .75rem;
-    color: #4a3f35;
-    text-align: center;
-    padding: 8px 3px 10px;
-    line-height: 1.2;
-    min-height: 2.2em;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    pointer-events: none
-}
-
-.polaroid:hover,
-.polaroid:focus-visible {
-    transform: translate(0, -6px) rotate(0deg) scale(1.08);
-    box-shadow: 0 2px 2px rgb(0 0 0 / .2), 0 22px 44px rgb(0 0 0 / .55);
-    z-index: 999;
-    outline: none;
-    filter: brightness(1.03)
-}
-
-.polaroid:focus-visible {
-    outline: 2px solid #e8c07a;
-    outline-offset: 4px
-}
-
-.no-random .polaroid {
-    --jitter-x: 0px;
-    --jitter-y: 0px;
-    --angle: var(--fallback-angle, 0deg);
-    --shadow-x: 0px;
-    --shadow-y: 8px;
-    --shadow-blur: 14px
-}
-
-.badge {
-    position: fixed;
-    bottom: .8rem;
-    right: .8rem;
-    font-size: .7rem;
-    padding: .4rem .8rem;
-    border-radius: 999px;
-    background: rgb(0 0 0 / .55);
-    color: #f3e9d2;
-    backdrop-filter: blur(6px);
-    font-family: ui-monospace, monospace;
-    z-index: 1000;
-    pointer-events: none
-}
-
-.badge.ok {
-    background: rgb(30 90 40 / .8)
-}
-
-.badge.fallback {
-    background: rgb(217 36 36 / .9)
-}
-
-@media (max-width:900px) {
-    :root {
-        --card-w: 130px;
-        --card-h: 190px
-    }
-}
-
-@media (max-width:600px) {
-    :root {
-        --card-w: 105px;
-        --card-h: 155px
-    }
-
-    .polaroid .caption {
-        font-size: .65rem;
-        padding: 6px 2px 8px
-    }
-}
-(() => {
-    "use strict";
-    const photos = [{
-        src: "https://images.unsplash.com/photo-1724943052319-399a5c10f81a?q=80&w=765",
-        caption: "Bjorn Pierre on Unsplash"
-    }, {
-        src: "https://images.unsplash.com/photo-1638734922465-461059520ead?q=80&w=765",
-        caption: "Sohail Shaikh on Unsplash"
-    }, {
-        src: "https://images.unsplash.com/photo-1679950818669-ef0ee7774c42?q=80&w=880",
-        caption: "Mohammad Mirzajani on Unsplash"
-    }, {
-        src: "https://images.unsplash.com/photo-1642610271133-97828a4dda50?q=80&w=880",
-        caption: "Alex Vámos on Unsplash"
-    }, {
-        src: "https://images.unsplash.com/photo-1616840420121-7ad8ed885f11?q=80&w=880",
-        caption: "Khashayar Kouchpeydeh on Unsplash"
-    }, {
-        src: "https://images.unsplash.com/photo-1632328153416-ba25c37d9226?q=80&w=880",
-        caption: "Christian Buehner on Unsplash"
-    }, {
-        src: "https://images.unsplash.com/photo-1634983799013-1ee608e7d499?q=80&w=880",
-        caption: "Angel Balashev on Unsplash"
-    }, {
-        src: "https://images.unsplash.com/photo-1661370212047-51b1c3b0c43e?q=80&w=880",
-        caption: "Ato Aikins on Unsplash"
-    }, {
-        src: "https://images.unsplash.com/photo-1728843838636-d84c0cf690ad?q=80&w=880",
-        caption: "Sofia Lasheva on Unsplash"
-    }, {
-        src: "https://images.unsplash.com/photo-1632935897206-2fe6634d6763?q=80&w=880",
-        caption: "Pham Van Ninh on Unsplash"
-    }, {
-        src: "https://images.unsplash.com/photo-1604247203891-ae01b7b2f1bb?q=80&w=880",
-        caption: "Oluwatobi Fasipe on Unsplash"
-    }, {
-        src: "https://images.unsplash.com/photo-1624344965194-6aa6729ad832?q=80&w=880",
-        caption: "Serhii Tyaglovsky on Unsplash"
-    }, {
-        src: "https://images.unsplash.com/photo-1572431862804-10af7b9c2830?q=80&w=880",
-        caption: "Nikolay Hristov on Unsplash"
-    }, {
-        src: "https://images.unsplash.com/photo-1727341553976-8456538f2009?q=80&w=880",
-        caption: "Branislav Rodman on Unsplash"
-    }, {
-        src: "https://images.unsplash.com/photo-1601588884518-28d7ce3f4b8f?q=80&w=880",
-        caption: "Shane Devlin on Unsplash"
-    }, {
-        src: "https://images.unsplash.com/photo-1673545174610-78273eac993f?q=80&w=880",
-        caption: "Alireza Skndari on Unsplash"
-    }, {
-        src: "https://images.unsplash.com/photo-1627498290122-7f2111edee42?q=80&w=850",
-        caption: "Stewart MacLean on Unsplash"
-    }, {
-        src: "https://images.unsplash.com/photo-1630952588308-2a0fcf9d5aea?q=80&w=764",
-        caption: "Kingsley Osei-Abrah on Unsplash"
-    }, {
-        src: "https://images.unsplash.com/photo-1765044224467-0144047cb6be?q=80&w=880",
-        caption: "Reza Roshan on Unsplash"
-    }, {
-        src: "https://images.unsplash.com/photo-1642808596970-3b071054d23e?q=80&w=800",
-        caption: "Chukwuemeka Odo on Unsplash"
-    }, {
-        src: "https://images.unsplash.com/photo-1656681923230-2f4bc0663267?q=80&w=832",
-        caption: "Alexander Krivitskiy on Unsplash"
-    }, {
-        src: "https://images.unsplash.com/photo-1640955324636-1ec5e34e8063?q=80&w=880",
-        caption: "Pablo Arenas on Unsplash"
-    }];
-  console.log('"Scattered Polaroids — CSS random()" by &Toc on codepen - https://codepen.io/ol-ivier');
-
-    const scene = document.getElementById("scene");
-    const badge = document.getElementById("badge");
-    if (!scene || !badge) return;
-    const supportsRandom = CSS.supports("width", "random(1px, 10px)");
-    if (supportsRandom) {
-        badge.textContent = "✓ CSS random() active";
-        badge.classList.add("ok")
-    } else {
-        badge.textContent = "⚠ random() not supported — JS fallback";
-        badge.classList.add("fallback");
-        document.body.classList.add("no-random")
-    }
-    const MARGIN = 6;
-    const MAX_TRIES = 400;
-    const OVERLAP_RATIO = 0.35;
-
-    function rand(min, max) {
-        return Math.random() * (max - min) + min
-    }
-
-    function intersectionArea(a, b) {
-        const w = Math.min(a.right, b.right) - Math.max(a.left, b.left);
-        const h = Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top);
-        if (w <= 0 || h <= 0) return 0;
-        return w * h
-    }
-
-    function overlaps(a, b, margin) {
-        const bExpanded = {
-            left: b.left - margin,
-            top: b.top - margin,
-            right: b.right + margin,
-            bottom: b.bottom + margin
-        };
-        const inter = intersectionArea(a, bExpanded);
-        if (inter === 0) return !1;
-        const areaA = (a.right - a.left) * (a.bottom - a.top);
-        const areaB = (bExpanded.right - bExpanded.left) * (bExpanded.bottom - bExpanded.top);
-        const ratioA = inter / areaA;
-        const ratioB = inter / areaB;
-        return ratioA > OVERLAP_RATIO || ratioB > OVERLAP_RATIO
-    }
-
-    function findFreePosition(w, h, placed, vw, vh) {
-        const minX = 10;
-        const maxX = Math.max(minX, vw - w - 10);
-        const minY = 70;
-        const maxY = Math.max(minY, vh - h - 10);
-        for (let i = 0; i < MAX_TRIES; i++) {
-            const x = rand(minX, maxX);
-            const y = rand(minY, maxY);
-            const rect = {
-                left: x,
-                top: y,
-                right: x + w,
-                bottom: y + h
-            };
-            const collides = placed.some(p => overlaps(rect, p, MARGIN));
-            if (!collides) return rect
-        }
-        return null
-    }
-
-    function build() {
-        scene.innerHTML = "";
-        const vw = window.innerWidth;
-        const vh = window.innerHeight;
-        const root = getComputedStyle(document.documentElement);
-        const cardW = parseFloat(root.getPropertyValue("--card-w"));
-        const cardH = parseFloat(root.getPropertyValue("--card-h"));
-        const placed = [];
-        let skipped = 0;
-        const shuffled = [...photos].sort(() => Math.random() - 0.5);
-        shuffled.forEach((photo) => {
-            const rect = findFreePosition(cardW, cardH, placed, vw, vh);
-            if (!rect) {
-                skipped++;
-                return
-            }
-            placed.push(rect);
-            const card = document.createElement("figure");
-            card.className = "polaroid";
-            card.tabIndex = 0;
-            card.setAttribute("role", "img");
-            card.setAttribute("aria-label", `Polaroid: ${photo.caption}`);
-            card.style.setProperty("--x", `${rect.left}px`);
-            card.style.setProperty("--y", `${rect.top}px`);
-            if (!supportsRandom) {
-                card.style.setProperty("--fallback-angle", `${rand(-14, 14)}deg`)
-            }
-            const img = document.createElement("img");
-            img.src = photo.src;
-            img.alt = photo.caption;
-            img.loading = "lazy";
-            img.onerror = () => {
-                card.remove()
-            };
-            const caption = document.createElement("figcaption");
-            caption.className = "caption";
-            caption.textContent = photo.caption;
-            card.append(img, caption);
-            scene.appendChild(card)
-        });
-        if (skipped > 0) {
-            console.info(`[polaroids] ${skipped} card(s) not placed due to lack of space.`)
-        }
-    }
-    build();
-    let resizeTimer;
-    window.addEventListener("resize", () => {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(build, 200)
-    })
-})()
+<script src="script.js"></script>
 </body>
-
 </html>
