@@ -1,175 +1,331 @@
+
 <!DOCTYPE html>
 <html lang="kk">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CapCut KZ - TikTok Style</title>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@700&family=Manrope:wght@700;800&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>小芳VIDEO STUDIES</title>
 <style>
- *{box-sizing:border-box}
- body{margin:0;background:linear-gradient(180deg,#1A0033,#0D001A);color:#fff;font-family:'Manrope',sans-serif;text-align:center;padding-bottom:40px}
- .top{padding:16px;font-family:'Unbounded',sans-serif;font-size:20px;background:linear-gradient(90deg,#FF0050,#00F2EA);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
- .phone{width:95%;max-width:380px;margin:auto;background:#000;border-radius:28px;overflow:hidden;border:3px solid #333;position:relative;box-shadow:0 20px 50px rgba(255,0,80,.4)}
- video{width:100%;height:520px;object-fit:cover;display:block;background:#000}
- #subtitleBox{position:absolute;bottom:70px;left:12px;right:12px;pointer-events:none}
- #subtitle{font-family:'Unbounded',sans-serif;font-size:24px;line-height:1.3;font-weight:700;text-transform:uppercase}
- #subtitle span{background:#FF0050;padding:2px 8px;border-radius:8px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
- #subtitle span:nth-child(2n){background:#00F2EA;color:#000}
- #subtitle span:nth-child(3n){background:#FFE500;color:#000}
- .controls{background:rgba(255,255,255,.08);backdrop-filter:blur(10px);border-radius:20px;padding:14px;margin:12px auto;max-width:380px;text-align:left;border:1px solid rgba(255,255,255,.15)}
- .controls b{font-size:15px}
- button{border:none;border-radius:999px;padding:12px 16px;margin:5px 3px;font-weight:800;font-family:'Manrope',sans-serif;cursor:pointer;font-size:14px}
- .btn-pink{background:#FF0050;color:#fff}
- .btn-cyan{background:#00F2EA;color:#000}
- .btn-yellow{background:#FFE500;color:#000}
- .btn-white{background:#fff;color:#000}
- input,select,textarea{width:100%;padding:11px;border-radius:12px;border:none;margin:6px 0;background:#222;color:#fff;font-family:'Manrope',sans-serif}
- .pill{display:inline-block;background:#333;padding:6px 12px;border-radius:999px;font-size:12px;margin:3px;cursor:pointer}
- .pill.active{background:#FF0050}
- #status{font-size:13px;color:#00F2EA;margin:6px}
+*{box-sizing:border-box}
+body{margin:0;background:#101116;color:#fff;font-family:Arial,sans-serif}
+header{height:65px;background:#191a22;border-bottom:1px solid #30313b;display:flex;align-items:center;justify-content:space-between;padding:0 20px}
+.logo{font-size:19px;font-weight:bold;color:#a99bff}
+.logo span{color:white}
+button,.upload{border:0;border-radius:7px;padding:10px 15px;background:#7658e8;color:white;cursor:pointer;font-weight:bold}
+button:hover,.upload:hover{background:#927afa}
+input,select{background:#252631;color:white;border:1px solid #424350;padding:9px;border-radius:6px;max-width:100%}
+main{padding:15px;max-width:1450px;margin:auto}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:15px}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:15px}
+.panel{background:#191a22;border:1px solid #30313b;border-radius:10px;padding:14px;margin-bottom:15px}
+h3{font-size:14px;color:#b6a9ff;margin:0 0 12px}
+.preview{background:#08090d;border-radius:8px;min-height:260px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+canvas{width:100%;max-height:480px;object-fit:contain}
+#empty{color:#888;text-align:center}
+.controls{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+.field{display:flex;flex-direction:column;gap:7px;margin-bottom:13px;font-size:12px;color:#bbb}
+.field input,.field select{width:100%}
+.timeline{background:#191a22;border:1px solid #30313b;padding:14px;border-radius:10px;margin-top:15px}
+.track{height:43px;background:#252631;border-radius:6px;margin-top:9px;position:relative;overflow:hidden}
+.clip{height:100%;background:linear-gradient(90deg,#6750d9,#a27aff);display:flex;align-items:center;padding:8px;font-size:12px;white-space:nowrap;overflow:hidden}
+.track-label{font-size:11px;color:#aaa;margin-top:12px}
+.status{font-size:12px;color:#9c91ff;margin-top:10px}
+@media(max-width:750px){.layout{grid-template-columns:1fr}header{padding:0 10px}.logo{font-size:15px}.preview{min-height:190px}main{padding:9px}}
 </style>
 </head>
 <body>
 
-<div class="top">CAPCUT KZ • TIKTOK STYLE</div>
+<header>
+  <div class="logo">小芳 <span>VIDEO STUDIES</span></div>
+  <button onclick="exportVideo()">⬇ Экспорт</button>
+</header>
 
-<div class="phone">
-  <video id="myVideo" controls playsinline></video>
-  <div id="subtitleBox"><div id="subtitle"><span>МӘТІН ОСЫНДА</span></div></div>
-</div>
-
-<div id="status">● Дайын - видео жүкте</div>
-
-<input type="file" id="upload" accept="video/*" style="max-width:380px">
-
-<!-- АВТО СУБТИТР - БАСТЫ -->
-<div class="controls">
-  <b>🎤 АВТО СУБТИТР - TikTok стилінде</b><br>
-  <button class="btn-pink" id="btnAutoSub">🎤 Авто-субтитрді қосу</button>
-  <button class="btn-white" id="btnStopSub">⏹ Тоқтату</button>
-  <div>
-    <span class="pill active" data-style="tiktok">TikTok</span>
-    <span class="pill" data-style="karaoke">Караоке</span>
-    <span class="pill" data-style="minimal">Минимал</span>
-    <span class="pill" data-style="neon">Неон</span>
+<main>
+  <div class="toolbar">
+    <label class="upload">＋ Видео<input hidden type="file" id="videoFile" accept="video/*"></label>
+    <label class="upload">＋ Фото<input hidden type="file" id="imageFile" accept="image/*"></label>
+    <label class="upload">♫ Музыка<input hidden type="file" id="audioFile" accept="audio/*"></label>
+    <button onclick="newProject()">Жаңа жоба</button>
   </div>
-  <textarea id="textInput">Сәлем! Біз сізді күтеміз! Жаңа коллекция келді!</textarea>
-  <button class="btn-yellow" id="btnText">✅ Мәтінді қолдану</button>
-  <div style="font-size:12px;opacity:.7">Сөйлесең - автоматты түрде қазақша жазылады. Қолмен жазсаң да болады.</div>
-</div>
 
-<!-- МОНТАЖ -->
-<div class="controls">
-  <b>✂️ МОНТАЖ</b><br>
-  <input type="number" id="startTime" value="0" placeholder="Басы (сек)">
-  <input type="number" id="endTime" value="5" placeholder="Аяғы (сек)">
-  <button class="btn-cyan" id="btnTrim">✂️ Қырқу</button>
-  <button class="btn-white" id="btnSpeed">⚡ 2x Жылдам</button>
-  <button class="btn-white" id="btnSlow">🐢 0.5x Баяу</button>
-</div>
+  <div class="layout">
+    <section>
+      <div class="panel">
+        <h3>▶ VIDEO PREVIEW</h3>
+        <div class="preview">
+          <canvas id="canvas" width="1280" height="720"></canvas>
+          <div id="empty">小芳 VIDEO STUDIES<br>Видео жүктеңіз</div>
+        </div>
+        <div class="controls">
+          <button onclick="playVideo()">▶ Play</button>
+          <button onclick="pauseVideo()">Ⅱ Pause</button>
+          <button onclick="restartVideo()">↺ Басы</button>
+        </div>
+        <div class="status" id="status">Жоба дайын</div>
+      </div>
 
-<!-- МУЗЫКА + ШАҚЫРТУ -->
-<div class="controls">
-  <b>🎵 МУЗЫКА & 📢 ШАҚЫРТУ</b><br>
-  <select id="musicList">
-    <option value="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3">🔥 Тренд - Энергиялы</option>
-    <option value="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3">💖 Жайлы - Салонға</option>
-    <option value="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3">🎉 Тойға - Көңілді</option>
-  </select>
-  <button class="btn-pink" id="btnMusic">▶️ Музыка</button>
-  <button class="btn-white" id="btnStopMusic">⏹ Тоқтату</button><br>
-  <button class="btn-yellow" id="btnInvite1">🛍️ Дүкен</button>
-  <button class="btn-yellow" id="btnInvite2">💅 Салон</button>
-  <button class="btn-yellow" id="btnInvite3">☕ Кафе</button>
-</div>
+      <div class="timeline">
+        <h3>✂ TIMELINE — МОНТАЖ</h3>
+        <div class="track-label">VIDEO TRACK</div>
+        <div class="track"><div class="clip" id="videoClip" style="width:0%">Видео</div></div>
+        <div class="track-label">AUDIO TRACK</div>
+        <div class="track"><div class="clip" id="audioClip" style="width:0%;background:#168d86">Музыка</div></div>
+        <div class="track-label">TEXT TRACK</div>
+        <div class="track"><div class="clip" id="textClip" style="width:0%;background:#b17c35">Мәтін</div></div>
+        <div class="field" style="margin-top:15px">
+          <label>Видеоның уақытын таңдау</label>
+          <input type="range" id="seek" min="0" max="100" value="0">
+        </div>
+      </div>
+    </section>
 
-<button class="btn-pink" id="btnSave" style="padding:16px 40px;font-size:17px;">⬇️ САҚТАУ</button>
+    <aside>
+      <div class="panel">
+        <h3>⚙ ВИДЕО БАПТАУ</h3>
+        <div class="field">
+          <label>Басталу уақыты (секунд)</label>
+          <input type="number" id="start" value="0" min="0" step="0.1">
+        </div>
+        <div class="field">
+          <label>Аяқталу уақыты (секунд)</label>
+          <input type="number" id="end" value="0" min="0" step="0.1">
+        </div>
+        <button style="width:100%" onclick="cutVideo()">✂ Кесу шекарасын қолдану</button>
+        <div class="field" style="margin-top:15px">
+          <label>Видео жылдамдығы</label>
+          <select id="speed" onchange="changeSpeed()">
+            <option value="0.25">0.25x</option>
+            <option value="0.5">0.5x</option>
+            <option value="1" selected>1x</option>
+            <option value="1.5">1.5x</option>
+            <option value="2">2x</option>
+            <option value="4">4x</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Дыбыс деңгейі</label>
+          <input type="range" id="volume" min="0" max="1" step="0.05" value="1" oninput="changeVolume()">
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>✍ МӘТІН ҚОСУ</h3>
+        <div class="field">
+          <label>Мәтін</label>
+          <input id="textInput" placeholder="Мәтінді енгізіңіз">
+        </div>
+        <div class="field">
+          <label>Мәтін түсі</label>
+          <input type="color" id="textColor" value="#ffffff">
+        </div>
+        <div class="field">
+          <label>Қаріп өлшемі</label>
+          <input type="number" id="fontSize" value="55" min="10" max="150">
+        </div>
+        <button style="width:100%" onclick="draw()">Мәтінді қолдану</button>
+      </div>
+
+      <div class="panel">
+        <h3>🎬 ФОРМАТ</h3>
+        <div class="field">
+          <label>Видео өлшемі</label>
+          <select id="format" onchange="setFormat()">
+            <option value="16:9">YouTube 16:9</option>
+            <option value="9:16">TikTok 9:16</option>
+            <option value="1:1">Instagram 1:1</option>
+          </select>
+        </div>
+        <button style="width:100%" onclick="exportVideo()">⬇ Видеоны сақтау</button>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<video id="video" playsinline style="display:none"></video>
+<audio id="music" loop></audio>
 
 <script>
-const video=document.getElementById('myVideo');
-const subtitle=document.getElementById('subtitle');
-const statusEl=document.getElementById('status');
-const music=new Audio(); music.loop=true;
-let rec=null;
+const video=document.getElementById('video');
+const music=document.getElementById('music');
+const canvas=document.getElementById('canvas');
+const ctx=canvas.getContext('2d');
+const status=document.getElementById('status');
+let videoURL=null,audioURL=null,image=null;
+let trimStart=0,trimEnd=0,animation=null,exporting=false;
 
-function setStatus(t){ statusEl.innerText='● '+t; }
-function renderSubtitle(text){
-  // Сөздерді бөліп, әрқайсысын түрлі түске бояу - TikTok стилі
-  let words=text.split(' ').filter(w=>w);
-  if(!words.length) return;
-  subtitle.innerHTML=words.map(w=>'<span>'+w+'</span>').join(' ');
+function message(t){status.textContent=t}
+
+document.getElementById('videoFile').onchange=e=>{
+ const f=e.target.files[0];if(!f)return;
+ if(videoURL)URL.revokeObjectURL(videoURL);
+ videoURL=URL.createObjectURL(f);
+ video.src=videoURL;
+ video.onloadedmetadata=()=>{
+  trimStart=0;trimEnd=video.duration;
+  document.getElementById('start').value=0;
+  document.getElementById('end').value=video.duration.toFixed(2);
+  document.getElementById('videoClip').style.width='100%';
+  document.getElementById('empty').style.display='none';
+  draw();message('Видео жүктелді');
+ };
+};
+
+document.getElementById('audioFile').onchange=e=>{
+ const f=e.target.files[0];if(!f)return;
+ if(audioURL)URL.revokeObjectURL(audioURL);
+ audioURL=URL.createObjectURL(f);
+ music.src=audioURL;
+ document.getElementById('audioClip').style.width='100%';
+ message('Музыка қосылды');
+};
+
+document.getElementById('imageFile').onchange=e=>{
+ const f=e.target.files[0];if(!f)return;
+ const url=URL.createObjectURL(f);
+ image=new Image();
+ image.onload=()=>{draw();message('Фото қосылды');};
+ image.src=url;
+};
+
+function draw(){
+ ctx.fillStyle='#08090d';
+ ctx.fillRect(0,0,canvas.width,canvas.height);
+
+ if(video.readyState>=2){
+  const vw=video.videoWidth,vh=video.videoHeight;
+  const scale=Math.min(canvas.width/vw,canvas.height/vh);
+  const w=vw*scale,h=vh*scale;
+  ctx.drawImage(video,(canvas.width-w)/2,(canvas.height-h)/2,w,h);
+ }
+ if(image){
+  const scale=Math.min(canvas.width/image.width,canvas.height/image.height);
+  const w=image.width*scale,h=image.height*scale;
+  ctx.drawImage(image,(canvas.width-w)/2,(canvas.height-h)/2,w,h);
+ }
+ const txt=document.getElementById('textInput').value;
+ if(txt){
+  const size=Number(document.getElementById('fontSize').value)||55;
+  ctx.font='bold '+size+'px Arial';
+  ctx.textAlign='center';
+  ctx.textBaseline='middle';
+  ctx.fillStyle='rgba(0,0,0,.55)';
+  ctx.fillText(txt,canvas.width/2+2,canvas.height*.83+2);
+  ctx.fillStyle=document.getElementById('textColor').value;
+  ctx.fillText(txt,canvas.width/2,canvas.height*.83);
+ }
+ if(!exporting)animation=requestAnimationFrame(draw);
 }
 
-document.getElementById('upload').addEventListener('change',e=>{
-  video.src=URL.createObjectURL(e.target.files[0]);
-  setStatus('Видео жүктелді! Авто-субтитрді қос');
-});
+function playVideo(){
+ if(!video.src){message('Алдымен видео жүктеңіз');return}
+ if(video.currentTime<trimStart||video.currentTime>=trimEnd)video.currentTime=trimStart;
+ video.play();music.play().catch(()=>{});
+}
+function pauseVideo(){video.pause();music.pause()}
+function restartVideo(){video.currentTime=trimStart;draw()}
+function changeSpeed(){video.playbackRate=Number(document.getElementById('speed').value)}
+function changeVolume(){video.volume=Number(document.getElementById('volume').value)}
+function cutVideo(){
+ const s=Number(document.getElementById('start').value);
+ const e=Number(document.getElementById('end').value);
+ if(!video.duration||s<0||e>video.duration||s>=e){
+  message('Уақытты дұрыс енгізіңіз');return;
+ }
+ trimStart=s;trimEnd=e;
+ video.currentTime=s;
+ message('Кесу шекаралары қолданылды');
+}
+document.getElementById('seek').oninput=e=>{
+ if(video.duration)video.currentTime=Number(e.target.value)/100*video.duration;
+};
+video.ontimeupdate=()=>{
+ if(video.duration){
+  document.getElementById('seek').value=video.currentTime/video.duration*100;
+  if(video.currentTime>=trimEnd){video.pause();video.currentTime=trimStart}
+ }
+};
+function setFormat(){
+ const f=document.getElementById('format').value;
+ if(f==='9:16'){canvas.width=720;canvas.height=1280}
+ else if(f==='1:1'){canvas.width=900;canvas.height=900}
+ else{canvas.width=1280;canvas.height=720}
+ draw();
+}
+function newProject(){
+ pauseVideo();
+ video.removeAttribute('src');video.load();
+ music.removeAttribute('src');music.load();
+ image=null;videoURL=null;audioURL=null;
+ trimStart=0;trimEnd=0;
+ document.getElementById('textInput').value='';
+ document.getElementById('videoClip').style.width='0%';
+ document.getElementById('audioClip').style.width='0%';
+ document.getElementById('textClip').style.width='0%';
+ document.getElementById('empty').style.display='block';
+ draw();message('Жаңа жоба ашылды');
+}
 
-document.getElementById('btnAutoSub').addEventListener('click',()=>{
-  let SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-  if(!SR){ alert('Chrome браузерде аш! Safari-де істемейді'); return; }
-  if(rec){ rec.stop(); }
-  rec=new SR(); rec.lang='kk-KZ'; rec.continuous=true; rec.interimResults=true;
-  rec.onresult=e=>{
-    let t='';
-    for(let i=0;i<e.results.length;i++) t+=e.results[i][0].transcript;
-    renderSubtitle(t);
-    document.getElementById('textInput').value=t;
-  };
-  rec.onend=()=>{ if(rec) rec.start(); };
-  rec.start();
-  setStatus('🎤 Тыңдап жатырмын... Сөйле!');
-  alert('Сөйле! Қазақша субтитр TikTok стилінде шығады');
-});
-
-document.getElementById('btnStopSub').addEventListener('click',()=>{
-  if(rec){ rec.onend=null; rec.stop(); rec=null; setStatus('Субтитр тоқтатылды'); }
-});
-
-document.getElementById('btnText').addEventListener('click',()=>{
-  renderSubtitle(document.getElementById('textInput').value);
-  setStatus('Мәтін қолданылды!');
-});
-
-// Стильдер
-document.querySelectorAll('.pill').forEach(p=>{
-  p.addEventListener('click',()=>{
-    document.querySelectorAll('.pill').forEach(x=>x.classList.remove('active'));
-    p.classList.add('active');
-    let s=p.dataset.style;
-    let sub=document.getElementById('subtitle');
-    if(s=='tiktok'){ sub.style.fontFamily="'Unbounded',sans-serif"; sub.style.textTransform='uppercase'; }
-    if(s=='karaoke'){ sub.style.fontFamily="'Manrope',sans-serif"; sub.style.textTransform='none'; sub.style.fontSize='28px'; }
-    if(s=='minimal'){ sub.style.fontFamily="'Manrope',sans-serif"; sub.style.textTransform='none'; sub.style.fontSize='20px'; }
-    if(s=='neon'){ sub.style.fontFamily="'Unbounded',sans-serif"; sub.style.textShadow='0 0 15px #FF0050, 0 0 30px #00F2EA'; }
-    setStatus('Стиль: '+s);
-  });
-});
-
-document.getElementById('btnTrim').addEventListener('click',()=>{
-  let s=Number(document.getElementById('startTime').value);
-  let e=Number(document.getElementById('endTime').value);
-  video.currentTime=s; video.play();
-  let c=setInterval(()=>{ if(video.currentTime>=e){ video.pause(); clearInterval(c); setStatus('Қырқылды: '+s+'-'+e+' сек'); } },300);
-});
-document.getElementById('btnSpeed').addEventListener('click',()=>{ video.playbackRate=2; video.play(); });
-document.getElementById('btnSlow').addEventListener('click',()=>{ video.playbackRate=0.5; video.play(); });
-
-document.getElementById('btnMusic').addEventListener('click',()=>{
-  music.src=document.getElementById('musicList').value; music.volume=0.25; music.play();
-  setStatus('Музыка ойнап жатыр');
-});
-document.getElementById('btnStopMusic').addEventListener('click',()=>music.pause());
-
-function setInvite(txt){ document.getElementById('textInput').value=txt; renderSubtitle(txt); setStatus('Шақырту қойылды!'); }
-document.getElementById('btnInvite1').addEventListener('click',()=>setInvite('Жаңа коллекция келді! Бағасы тиімді! Бүгін кел!'));
-document.getElementById('btnInvite2').addEventListener('click',()=>setInvite('Сұлулығыңды бізбен аш! Бүгін жазыл 20% жеңілдік!'));
-document.getElementById('btnInvite3').addEventListener('click',()=>setInvite('Дәмді тағам жылы атмосфера! Достарыңмен кел!'));
-
-document.getElementById('btnSave').addEventListener('click',()=>alert('Видео дайын! Видеоға ұзақ басып - Сақтауды бас'));
-
-renderSubtitle('Сәлем! Біз сізді күтеміз!');
-setStatus('Код жүктелді - бәрі істеу керек!');
+async function exportVideo(){
+ if(!video.src){message('Алдымен видео жүктеңіз');return}
+ if(!window.MediaRecorder||!canvas.captureStream){
+  message('Бұл браузер экспортты қолдамайды');return;
+ }
+ if(video.readyState<2){message('Видео дайындалуда');return}
+ pauseVideo();
+ exporting=true;
+ cancelAnimationFrame(animation);
+ const stream=canvas.captureStream(30);
+ let sourceStream=null,audioStream=null;
+ try{
+  if(video.captureStream){
+   sourceStream=video.captureStream();
+   sourceStream.getAudioTracks().forEach(t=>stream.addTrack(t));
+  }
+  if(music.src){
+   music.currentTime=0;
+   await music.play().catch(()=>{});
+   if(music.captureStream){
+    audioStream=music.captureStream();
+    audioStream.getAudioTracks().forEach(t=>stream.addTrack(t));
+   }
+  }
+ }catch(err){console.log(err)}
+ const mime=MediaRecorder.isTypeSupported('video/webm;codecs=vp9,opus')?'video/webm;codecs=vp9,opus':'video/webm';
+ const recorder=new MediaRecorder(stream,{mimeType:mime});
+ const chunks=[];
+ recorder.ondataavailable=e=>{if(e.data.size)chunks.push(e.data)};
+ recorder.onstop=()=>{
+  const blob=new Blob(chunks,{type:'video/webm'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download='xiaofang-video.webm';a.click();
+  setTimeout(()=>URL.revokeObjectURL(url),30000);
+  stream.getTracks().forEach(t=>t.stop());
+  if(sourceStream)sourceStream.getTracks().forEach(t=>t.stop());
+  if(audioStream)audioStream.getTracks().forEach(t=>t.stop());
+  exporting=false;draw();
+  message('Видео сақталды!');
+ };
+ recorder.start();
+ video.currentTime=trimStart;
+ await new Promise(resolve=>{
+  if(video.currentTime===trimStart)resolve();
+  else video.onseeked=resolve;
+ });
+ video.playbackRate=Number(document.getElementById('speed').value);
+ await video.play();
+ message('Видео жазылып жатыр...');
+ const check=()=>{
+  if(video.currentTime>=trimEnd||video.ended){
+   video.pause();music.pause();
+   recorder.stop();
+  }else if(exporting){
+   requestAnimationFrame(check);
+  }
+ };
+ check();
+}
+draw();
 </script>
 </body>
 </html>
