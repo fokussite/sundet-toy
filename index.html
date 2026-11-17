@@ -3,59 +3,135 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CapCut KZ - Жаңартылған</title>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:wght@700&family=Caveat:wght@700&family=Bebas+Neue&family=Inter:wght@700&display=swap" rel="stylesheet">
+<title>CapCut KZ - Жұмыс істейді</title>
 <style>
-  body{background:#111;color:#fff;font-family:'Montserrat',sans-serif;text-align:center;margin:0;padding:10px}
-  #wrap{position:relative;width:95%;max-width:420px;margin:auto;background:#000;border-radius:14px;overflow:hidden}
-  video{width:100%;display:block}
-  #subtitle{position:absolute;bottom:25px;left:10px;right:10px;font-size:26px;font-weight:700;color:#FFE500;text-shadow:2px 2px 0 #000;pointer-events:none;word-wrap:break-word}
-  button{padding:11px 14px;margin:4px;border:none;border-radius:10px;background:#FFE500;font-weight:700;cursor:pointer}
-  .green{background:#00FF88}.blue{background:#00D0FF}.pink{background:#FF5CA8;color:#fff}
-  input,select,textarea{padding:9px;border-radius:9px;border:none;margin:4px;width:90%;max-width:350px}
-  .card{background:#1e1e1e;border-radius:14px;padding:12px;margin:10px auto;max-width:420px;text-align:left}
-  .tpl{background:#2a2a2a;padding:10px;border-radius:10px;margin:6px 0;cursor:pointer}
-  /* ИИ БОТ */
-  #aiBtn{position:fixed;bottom:20px;right:20px;width:60px;height:60px;border-radius:50%;background:#FFE500;font-size:26px;z-index:99}
-  #aiChat{display:none;position:fixed;bottom:90px;right:15px;left:15px;max-width:400px;margin:auto;background:#222;border-radius:16px;padding:12px;z-index:100;text-align:left}
-  #aiMessages{height:200px;overflow-y:auto;background:#111;padding:8px;border-radius:10px;font-size:14px;margin-bottom:8px}
+ body{background:#111;color:#fff;text-align:center;font-family:sans-serif;padding:10px}
+ video{width:95%;max-width:400px;border-radius:12px;background:#000}
+ #subtitle{font-size:26px;color:#FFE500;font-weight:700;margin:10px;text-shadow:2px 2px 0 #000}
+ button{padding:13px;margin:5px;border:none;border-radius:10px;background:#FFE500;font-weight:700;font-size:15px}
+ input,select,textarea{padding:10px;border-radius:9px;border:none;margin:5px;width:90%;max-width:350px}
+ .card{background:#1e1e1e;border-radius:14px;padding:12px;margin:10px auto;max-width:420px}
+ #aiChat{display:none;background:#222;border-radius:14px;padding:12px;margin:10px auto;max-width:420px;text-align:left}
 </style>
 </head>
 <body>
 
-<h2>🎬 CapCut KZ - Жаңа Нұсқа</h2>
+<h2>🎬 CapCut KZ</h2>
+<input type="file" id="upload" accept="video/*"><br>
+<video id="myVideo" controls></video>
+<div id="subtitle">Мәтін осында шығады</div>
 
-<!-- ЖҮКТЕУ -->
-<input type="file" id="upload" accept="video/*">
-<div id="wrap">
-  <video id="myVideo" controls></video>
-  <div id="subtitle">Мәтін осында шығады</div>
-</div>
-
-<!-- МОНТАЖ БӨЛІМІ -->
 <div class="card">
-  <b>✂️ МОНТАЖ БӨЛІМІ</b><br><br>
+  <b>✂️ МОНТАЖ</b><br>
   Басы: <input type="number" id="startTime" value="0">
   Аяғы: <input type="number" id="endTime" value="5"><br>
-  <button onclick="trimVideo()">✂️ Қырқу</button>
-  <button onclick="splitVideo()" class="blue">Бөлу</button>
-  <button onclick="deletePart()" class="pink">Жою</button><br>
-  Жылдамдық:
-  <select id="speed" onchange="changeSpeed()">
-    <option value="0.5">0.5x Баяу</option>
-    <option value="1" selected>1x Қалыпты</option>
-    <option value="1.5">1.5x</option>
-    <option value="2">2x Жылдам</option>
-  </select><br>
-  Переход:
-  <select id="transition" onchange="changeTransition()">
-    <option value="none">Жоқ</option>
-    <option value="fade">Өшу</option>
-    <option value="zoom">Масштаб</option>
-  </select>
+  <button id="btnTrim">✂️ Қырқу</button>
+  <button id="btnSpeed">⚡ Жылдамдық 2x</button>
 </div>
 
-<!-- РОЛИК МӘТІНІН ӨЗГЕРТУ -->
 <div class="card">
-  <b>✍️ РОЛИК МӘТІНІН ӨЗГЕРТУ</b><br>
-  <textarea id="textInput" placeholder="Р
+  <b>✍️ МӘТІН</b><br>
+  <textarea id="textInput">Сәлем! Біз сізді күтеміз! ✨</textarea><br>
+  <button id="btnText">✅ Мәтінді өзгерту</button>
+  <button id="btnSub">🎤 Қазақша Субтитр</button>
+</div>
+
+<div class="card">
+  <b>🎵 МУЗЫКА + ШАҚЫРТУ</b><br>
+  <button id="btnMusic">🎵 Музыка қосу</button>
+  <button id="btnStop">⏹ Тоқтату</button><br>
+  <button id="btnInvite">📢 Дүкенге шақырту</button>
+</div>
+
+<div class="card">
+  <b>🤖 ИИ БОТ</b><br>
+  <button id="btnAI">🤖 ИИ-ботты ашу</button>
+  <div id="aiChat">
+    <div id="aiMessages">Бот: Сәлем! Мен дайынмын!</div><br>
+    <button id="btnScript">📝 Ролик мәтінін жаз</button>
+    <button id="btnHashtag">#️⃣ Хештег бер</button>
+  </div>
+</div>
+
+<script>
+// БАРЛЫҒЫ ОСЫ ЖЕРДЕ - onclick жоқ, сондықтан қате болмайды
+const video = document.getElementById('myVideo');
+const subtitle = document.getElementById('subtitle');
+const music = new Audio();
+music.loop = true;
+
+document.getElementById('upload').addEventListener('change', function(e){
+  video.src = URL.createObjectURL(e.target.files[0]);
+  alert('Видео жүктелді!');
+});
+
+document.getElementById('btnTrim').addEventListener('click', function(){
+  let s = Number(document.getElementById('startTime').value);
+  let e = Number(document.getElementById('endTime').value);
+  video.currentTime = s;
+  video.play();
+  let check = setInterval(function(){
+    if(video.currentTime >= e){ video.pause(); clearInterval(check); alert('Қырқылды: ' + s + ' - ' + e); }
+  }, 300);
+});
+
+document.getElementById('btnSpeed').addEventListener('click', function(){
+  video.playbackRate = 2;
+  video.play();
+  alert('2x жылдамдық қойылды!');
+});
+
+document.getElementById('btnText').addEventListener('click', function(){
+  subtitle.innerText = document.getElementById('textInput').value;
+  alert('Мәтін өзгерді!');
+});
+
+document.getElementById('btnSub').addEventListener('click', function(){
+  let SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!SR){ alert('Chrome-да аш!'); return; }
+  let rec = new SR();
+  rec.lang = 'kk-KZ'; rec.continuous = true; rec.interimResults = true;
+  rec.onresult = function(e){
+    let t = '';
+    for(let i=0;i<e.results.length;i++){ t += e.results[i][0].transcript; }
+    subtitle.innerText = t;
+  };
+  rec.start();
+  alert('Сөйле! Субтитр шығады');
+});
+
+document.getElementById('btnMusic').addEventListener('click', function(){
+  music.src = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3';
+  music.volume = 0.3;
+  music.play();
+  alert('Музыка қосылды!');
+});
+
+document.getElementById('btnStop').addEventListener('click', function(){ music.pause(); });
+
+document.getElementById('btnInvite').addEventListener('click', function(){
+  let txt = 'Жаңа коллекция келді! 🛍️ Бағасы тиімді! Бүгін кел!';
+  document.getElementById('textInput').value = txt;
+  subtitle.innerText = txt;
+  alert('Шақырту қойылды!');
+});
+
+document.getElementById('btnAI').addEventListener('click', function(){
+  let c = document.getElementById('aiChat');
+  c.style.display = c.style.display == 'block' ? 'none' : 'block';
+});
+
+document.getElementById('btnScript').addEventListener('click', function(){
+  let txt = 'Сәлем! Бізде ең жақсы тауар, ең тиімді баға! Бүгін кел, өкінбейсің! ✨';
+  document.getElementById('aiMessages').innerHTML += '<br>Бот: ' + txt;
+  subtitle.innerText = txt;
+});
+
+document.getElementById('btnHashtag').addEventListener('click', function(){
+  document.getElementById('aiMessages').innerHTML += '<br>Бот: #казахстан #атбасар #бизнес #тренд #рекомендация';
+});
+
+alert('Код жүктелді - кнопкалар енді істеу керек!');
+</script>
+</body>
+</html>
