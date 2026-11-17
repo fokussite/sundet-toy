@@ -1,79 +1,61 @@
-Create a modern video editing website like CapCut, in Kazakh language (kk-KZ), fully responsive for mobile.
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CapCut KZ - Жаңартылған</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:wght@700&family=Caveat:wght@700&family=Bebas+Neue&family=Inter:wght@700&display=swap" rel="stylesheet">
+<style>
+  body{background:#111;color:#fff;font-family:'Montserrat',sans-serif;text-align:center;margin:0;padding:10px}
+  #wrap{position:relative;width:95%;max-width:420px;margin:auto;background:#000;border-radius:14px;overflow:hidden}
+  video{width:100%;display:block}
+  #subtitle{position:absolute;bottom:25px;left:10px;right:10px;font-size:26px;font-weight:700;color:#FFE500;text-shadow:2px 2px 0 #000;pointer-events:none;word-wrap:break-word}
+  button{padding:11px 14px;margin:4px;border:none;border-radius:10px;background:#FFE500;font-weight:700;cursor:pointer}
+  .green{background:#00FF88}.blue{background:#00D0FF}.pink{background:#FF5CA8;color:#fff}
+  input,select,textarea{padding:9px;border-radius:9px;border:none;margin:4px;width:90%;max-width:350px}
+  .card{background:#1e1e1e;border-radius:14px;padding:12px;margin:10px auto;max-width:420px;text-align:left}
+  .tpl{background:#2a2a2a;padding:10px;border-radius:10px;margin:6px 0;cursor:pointer}
+  /* ИИ БОТ */
+  #aiBtn{position:fixed;bottom:20px;right:20px;width:60px;height:60px;border-radius:50%;background:#FFE500;font-size:26px;z-index:99}
+  #aiChat{display:none;position:fixed;bottom:90px;right:15px;left:15px;max-width:400px;margin:auto;background:#222;border-radius:16px;padding:12px;z-index:100;text-align:left}
+  #aiMessages{height:200px;overflow-y:auto;background:#111;padding:8px;border-radius:10px;font-size:14px;margin-bottom:8px}
+</style>
+</head>
+<body>
 
-DESIGN:
-- Dark theme like CapCut, black background #111, yellow accent #FFE500
-- Mobile-first, clean, modern UI
-- All texts in Kazakh language
+<h2>🎬 CapCut KZ - Жаңа Нұсқа</h2>
 
-MAIN PAGE (index.html):
-- Big hero: "Видеоңды әдемі ет" + button "Видео жүктеу"
-- 3 templates: Тойға, Бизнеске, TikTok-қа
-- Examples section with 3 sample videos
-- Section "Клиенттерге шақырту": ready templates for business
+<!-- ЖҮКТЕУ -->
+<input type="file" id="upload" accept="video/*">
+<div id="wrap">
+  <video id="myVideo" controls></video>
+  <div id="subtitle">Мәтін осында шығады</div>
+</div>
 
-EDITOR PAGE (editor.html):
-1. Video Upload:
-- Upload video from device, show in <video> player
+<!-- МОНТАЖ БӨЛІМІ -->
+<div class="card">
+  <b>✂️ МОНТАЖ БӨЛІМІ</b><br><br>
+  Басы: <input type="number" id="startTime" value="0">
+  Аяғы: <input type="number" id="endTime" value="5"><br>
+  <button onclick="trimVideo()">✂️ Қырқу</button>
+  <button onclick="splitVideo()" class="blue">Бөлу</button>
+  <button onclick="deletePart()" class="pink">Жою</button><br>
+  Жылдамдық:
+  <select id="speed" onchange="changeSpeed()">
+    <option value="0.5">0.5x Баяу</option>
+    <option value="1" selected>1x Қалыпты</option>
+    <option value="1.5">1.5x</option>
+    <option value="2">2x Жылдам</option>
+  </select><br>
+  Переход:
+  <select id="transition" onchange="changeTransition()">
+    <option value="none">Жоқ</option>
+    <option value="fade">Өшу</option>
+    <option value="zoom">Масштаб</option>
+  </select>
+</div>
 
-2. Video Trimming / МОНТАЖ БӨЛІМІ:
-- Two inputs: Start Time and End Time (in seconds)
-- Play only selected range, button "Қырқу"
-- Timeline bar at bottom, drag to cut
-- Button "Бөлу", "Жою", "Біріктіру"
-- Speed control: 0.5x, 1x, 1.5x, 2x
-- Transition between clips: Өшу, Жылжу, Масштаб
-
-3. Music:
-- Button "Музыка қосу" - play background music from list of 10 musics
-- Volume slider, button "Тоқтату"
-- Button "Дыбысты өшіру"
-
-4. Auto Kazakh Subtitle + РОЛИК МӘТІНІН ӨЗГЕРТУ:
-- Use Web Speech API with lang='kk-KZ'
-- Show recognized text as subtitle overlay on video, centered bottom
-- Yellow color, black shadow, large font
-- NEW: Click on subtitle text to EDIT it manually
-- Input field: "Ролик мәтінін өзгерт" - user can type new text, change color, size, position
-- Button "Мәтінді сақтау"
-
-5. Beautiful Fonts:
-- Font selector with 5 fonts: Montserrat, Playfair Display, Caveat, Bebas Neue, Inter
-- All fonts must support Kazakh letters: ә, ғ, қ, ң, ө, ұ, ү, і
-
-6. Filters:
-- 5 filters: Жылы, Суық, Қара-ақ, Кино, Ашық
-- Apply with CSS filter to video
-
-7. ИИ-БОТ - ЖАҢАРТЫЛҒАН НҰСҚА:
-- Floating AI Bot button bottom right "ИИ Көмекші"
-- When clicked, open chat window
-- AI Bot can:
-  a) Generate video script in Kazakh: user writes topic, bot gives ready text
-  b) Generate client invitation text: "Клиенттерге шақырту жаса"
-  c) Suggest hashtags, title, description for TikTok / Instagram
-  d) Auto-generate subtitle text from video idea
-- Bot answers in Kazakh, friendly tone
-- 3 quick buttons in chat: "Ролик мәтінін жаз", "Шақырту жаса", "Хештег бер"
-
-8. КЛИЕНТТЕРГЕ ШАҚЫРТУ БӨЛІМІ:
-- Page "Шақырту": 5 ready templates:
-    1. Салонға шақырту: "Сұлулығыңды бізбен аш!..."
-    2. Дүкенге шақырту: "Жаңа коллекция келді!..."
-    3. Кафеге шақырту: "Дәмді тағам, жылы атмосфера..."
-    4. Тойға шақырту
-    5. Курстарға шақырту
-- Each template has: Ready video text + Button "Осы шаблонмен видео жаса"
-- User clicks template -> goes to editor with that text already loaded
-
-9. Export:
-- Button "Скачать" - download edited video
-- Button "WhatsApp-қа жіберу"
-
-TECH:
-- Only HTML, CSS, JavaScript, no frameworks
-- Use Google Fonts
-- Use Web Speech API for subtitles
-- Code must be in one file editor.html, with comments in Kazakh
-- Must work on mobile browser
-
-Write full working code.
+<!-- РОЛИК МӘТІНІН ӨЗГЕРТУ -->
+<div class="card">
+  <b>✍️ РОЛИК МӘТІНІН ӨЗГЕРТУ</b><br>
+  <textarea id="textInput" placeholder="Р
